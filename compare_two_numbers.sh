@@ -2,7 +2,7 @@
 #Author: Manuel Salazar email: m1_20@hotmail.com
 #Read two numbers from the keyboard and tell which is greater
 clear
-isnumber='^[0-9]+$'
+isnumber = '^[0-9]+$'
 
 echo -n "First number to check: "
 read number1
