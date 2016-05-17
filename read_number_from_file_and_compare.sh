@@ -1,10 +1,35 @@
 #!/bin/bash
 #Author: Manuel Salazar email: m1_20@hotmail.com
-# Read two numbers from a file and tell which is the greater
+#Read two numbers from a file and tell which is the greater
 
 clear
+filename=$1
 
-number1=$(sed -n '1p' <number)
+#Check if there is only one argument
+if [ $# -ne 1 ];
+then
+  echo "--------------------------"
+  echo "Please enter the filename!"
+  echo "--------------------------"
+  exit 1
+fi
+
+if [ $# -gt 1 ];
+then
+  echo "--------------------------------"
+  echo "Please enter only one argument!"
+  echo "--------------------------------"
+  exit 1
+fi
+
+if ! [ -f $filename ];
+then
+  echo "----------------------------------------------------"
+  echo "The argument is not valid file or it doesn't exists!"
+  echo "----------------------------------------------------"
+fi
+
+number1=$(sed -n '1p' <$filename)
 if ! [[ $number1 =~ ^[0-9]+$ ]];
 then
   echo "---------------------------"
@@ -13,7 +38,7 @@ then
   exit 1
 fi
 
-number2=$(sed -n '2p' <number)
+number2=$(sed -n '2p' <$filename)
 if ! [[ $number2 =~ ^[0-9]+$ ]];
 then
   echo "----------------------------"
