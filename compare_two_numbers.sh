@@ -2,11 +2,11 @@
 #Author: Manuel Salazar email: m1_20@hotmail.com
 #Read two numbers from the keyboard and tell which is greater
 clear
-isNumber='^[0-9]+$'
+isnumber='^[0-9]+$'
 
 echo -n "First number to check: "
 read number1
-if ! [[ $number1 =~ $isNumber ]];
+if ! [[ $number1 =~ $isnumber ]];
 then
   echo "error: $number1 is not a number"
   exit 1
@@ -14,7 +14,7 @@ fi
 
 echo -n "Second number to check: "
 read number2
-if ! [[ $number2 =~ $isNumber ]];
+if ! [[ $number2 =~ $isnumber ]];
 then
   echo "error: $number2 is not a number"
   exit 1
