@@ -1,1 +1,1 @@
-# bash
+# Bash Examples and Snippets
