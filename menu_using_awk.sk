@@ -1,0 +1,132 @@
+
+#!/bin/bash
+#Author: Manuel Salazar email: m1_20@hotmail.com
+
+source validation.sh
+
+function displayEmployee {
+  clear
+  echo -e "Find an employee and display all details."
+  read -p "Please enter file name: " filename
+  isFile $filename
+  awk '
+    BEGIN {
+      FS=","
+      OFS="\t"
+      printf "Enter employee ID: "
+      getline empid <"/dev/tty"
+      if ( empid !~ "^[0-9]+$" ) {
+        print "Invalid Entry!"
+        exit
+      }
+    }
+    {
+      if ( $1 == empid )
+      print $1,$2,$3,$4,$5
+    }
+  ' $filename
+}
+
+function displayCol {
+  clear
+  echo "Display the columns of a CSV file."
+  read -p "Please enter the file name: " filename
+  isFile $filename
+  awk '
+    BEGIN {
+      FS=","
+      OFS="\t"
+      printf "Enter the firt column to print: "
+      getline colx <"/dev/tty"
+      if ( colx !~ "^[0-9]+$" ) {
+        print "Invalid Entry!"
+        exit
+      }
+      printf "Enter the second column to print: "
+      getline coly <"/dev/tty"
+      if ( coly !~ "^[0-9]+$" ) {
+        print "Invalid Entry!"
+        exit
+     }
+    }
+    {
+      print $'colx', $'coly'
+    }
+  ' $filename
+}
+
+function displayAllRecords10K {
+  clear
+  echo "Displaying all the records where balance is greater than 10,000"
+  read -p "Please enter the file name: " filename
+  isFile $filename
+  awk '
+    BEGIN {
+      FS=","
+      OFS="\t"
+    }
+    {
+      if ( $3 > 10000 ) {
+        print $1,$2,$3,$4,$5
+      }
+    }
+  ' $filename
+}
+
+function displaySumSalary {
+  clear
+  read -p "Please enter the file name: " filename
+  isFile $filename
+  awk '
+    BEGIN {
+      FS=","
+      OFS="\t"
+      printf "Enter the account name: "
+      getline acc <"/dev/tty"
+    }
+    {
+      if ( acc == $5 ) {
+        total += $3
+        print $1,$2,$3,$4,$5
+      }
+    }
+    END {
+      print "\nThe total is: "total
+    }
+  ' $filename
+}
+
+function printMenu {
+  clear
+  echo -e "\t\t\t\tMenu\n"
+  echo -e "\t\t1. Display x Employee Record."
+  echo -e "\t\t2. Display Column x and Column y."
+  echo -e "\t\t3. Display all records where salary > 10k."
+  echo -e "\t\t4. Select an account and display all the employees and the total sum of the salary"
+  echo -e "\t\t0. Exit.\n\n"
+  echo -en "\t\t\tPlease enter an option: "
+}
+
+while [ 1 ]
+do
+  printMenu
+  read -n 1 option
+  case $option in
+  0)
+    break ;;
+  1)
+    displayEmployee ;;
+  2)
+    displayCol ;;
+  3)
+    displayAllRecords10K ;;
+  4)
+    displaySumSalary ;;
+  *)
+    clear
+    echo "Sorry, wrong selection." ;;
+  esac
+    echo -en "\n\n\t\tHit any key to return to the menu."
+    read -n 1 line
+done
+clear
